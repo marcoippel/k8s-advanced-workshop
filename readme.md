@@ -12,7 +12,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 127.0.0.1 wordpress.cloudrepublic.internal
 ```
 
-Stappenplan:
+## Stappenplan
 
 1. Maak een namespace aan.
 2. Maak een pvc aan voor de mysql deployment
@@ -22,9 +22,11 @@ Stappenplan:
 6. Maak een MySql deployment aan
 7. Maak de services aan voor de Wordpress en Mysql deployments
 8. Maak een ingress aan met de url wordpress.cloudrepublic.internal
-9. Maak een Role aan welke alleen rechten heeft om de pods en deplouments in de door jou aangemaakte namespace te zien
+10. Open de url wordpress.cloudrepublic.internal als het goed is zie je nu de Wordpress setup page
+11. Maak een Role aan welke alleen rechten heeft om de pods en deplouments in de door jou aangemaakte namespace te zien
 
 ```
+
 <!-- Set the credentials -->
 kubectl config set-credentials pod-deployment-viewer --token=$(kubectl describe secret -n study $(kubectl get secret -n study | Select-String "pod-deployment-viewer-account" | ForEach-Object { $_.Line.Split(' ', [StringSplitOptions]::RemoveEmptyEntries)[0] }) | Select-String "token:" | ForEach-Object { $_.Line.Split(':      ')[1] })
 
@@ -42,7 +44,7 @@ kubectl config set-context docker-desktop --user=docker-desktop --namespace=stud
 kubectl config use-context docker-desktop
 ```
 
-Troubleshooting
+## Troubleshooting
 
 - Ingress werkt niet:
   - luistert er niets op poort 80
