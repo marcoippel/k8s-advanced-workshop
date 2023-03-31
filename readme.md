@@ -23,7 +23,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 7. Maak de services aan voor de Wordpress en Mysql deployments
 8. Maak een ingress aan met de url wordpress.cloudrepublic.internal
 10. Open de url wordpress.cloudrepublic.internal als het goed is zie je nu de Wordpress setup page
-11. Maak een Role aan welke alleen rechten heeft om de pods en deplouments in de door jou aangemaakte namespace te zien
+11. Maak een Role aan welke alleen rechten heeft om de pods en deployments in de door jou aangemaakte namespace te zien
 
 ```
 
