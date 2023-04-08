@@ -1,5 +1,11 @@
 # Voer de volgende stappen eerst uit voor je begint
 
+## Install k9s
+
+```
+choco install k9s
+```
+
 ## Install nginx controller in Docker Desktop
 
 ```
@@ -25,10 +31,15 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 10. Open de url wordpress.cloudrepublic.internal als het goed is zie je nu de Wordpress setup page
 11. Maak een Role aan welke alleen rechten heeft om de pods en deployments in de door jou aangemaakte namespace te zien
 
-```
+## Inloggen met een service account
+
+1. Maak een service account aan met de naam: 'pod-deployment-viewer-account'
+2. Maak een secret aan zoals omschreven in <https://kubernetes.io/docs/concepts/configuration/secret/#service-account-token-secrets> als er geen secret bestaat voor het service account.
+3. Open het zojuist aangemaakte secret doormiddel van k9s (met x decode je het secret)
+3. Voer het volgende commando uit om het service account toe te voegen aan de kubectl config: 'kubectl config set-credentials pod-deployment-viewer --token='
 
 <!-- Set the credentials -->
-kubectl config set-credentials pod-deployment-viewer --token=$(kubectl describe secret -n study $(kubectl get secret -n study | Select-String "pod-deployment-viewer-account" | ForEach-Object { $_.Line.Split(' ', [StringSplitOptions]::RemoveEmptyEntries)[0] }) | Select-String "token:" | ForEach-Object { $_.Line.Split(':      ')[1] })
+kubectl config set-credentials pod-deployment-viewer --token=$(kubectl describe secret -n study $(kubectl get secret -n study | Select-String "pod-deployment-viewer-account" | ForEach-Object { $_.Line.Split[' ', [StringSplitOptions]::RemoveEmptyEntries](0) }) | Select-String "token:" | ForEach-Object { $_.Line.Split[':      '](1) })
 
 <!-- Set the context -->
 kubectl config set-context pod-deployment-viewer-context --user=pod-deployment-viewer --namespace=study
@@ -42,7 +53,6 @@ kubectl config use-context pod-deployment-viewer-context
 <!-- Reset the credentials -->
 kubectl config set-context docker-desktop --user=docker-desktop --namespace=study
 kubectl config use-context docker-desktop
-```
 
 ## Troubleshooting
 
