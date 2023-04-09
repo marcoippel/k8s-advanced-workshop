@@ -23,7 +23,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 1. Maak een namespace aan.
 2. Maak een pvc aan voor de mysql deployment
 3. Maak een pvc aan voor de wordpress bestanden mount deze op pad "/var/www/html"
-4. Maak een secret aan voor de SA user van de MySql deployment
+4. Maak een secret aan voor de Admin user van de MySql deployment
 5. Maak een Wordpress deployment aan
 6. Maak een MySql deployment aan
 7. Maak de services aan voor de Wordpress en Mysql deployments
@@ -36,21 +36,13 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 1. Maak een service account aan met de naam: 'pod-deployment-viewer-account'
 2. Maak een secret aan zoals omschreven in <https://kubernetes.io/docs/concepts/configuration/secret/#service-account-token-secrets> als er geen secret bestaat voor het service account.
 3. Open het zojuist aangemaakte secret doormiddel van k9s (met x decode je het secret)
-3. Voer het volgende commando uit om het service account toe te voegen aan de kubectl config: 'kubectl config set-credentials pod-deployment-viewer --token='
+4. Voer het volgende commando uit om het service account toe te voegen aan de kubectl config: 'kubectl config set-credentials pod-deployment-viewer --token={het token uit stap 3}'
+5. Koppel een context aan een user en een namespace in je kubeconfig file: kubectl config set-context pod-deployment-viewer-context --user=pod-deployment-viewer --namespace=study
+6. Koppel het cluster aan de context: kubectl config set-context pod-deployment-viewer-context --cluster=docker-desktop --user=pod-deployment-viewer --namespace=study
+7. Nu ben je ingelogd onder het service account en kan je alleen de resources zien welke opgegeven zijn bij het aanmaken van de role in het stappenplan punt 11.
 
-<!-- Set the credentials -->
-kubectl config set-credentials pod-deployment-viewer --token=$(kubectl describe secret -n study $(kubectl get secret -n study | Select-String "pod-deployment-viewer-account" | ForEach-Object { $_.Line.Split[' ', [StringSplitOptions]::RemoveEmptyEntries](0) }) | Select-String "token:" | ForEach-Object { $_.Line.Split[':      '](1) })
+## Om de credentials te resetten en om weer met de orginele gebruiker in te loggen
 
-<!-- Set the context -->
-kubectl config set-context pod-deployment-viewer-context --user=pod-deployment-viewer --namespace=study
-
-<!-- Set the cluster -->
-kubectl config set-context pod-deployment-viewer-context --cluster=docker-desktop --user=pod-deployment-viewer --namespace=study
-
-<!-- Use the context -->
-kubectl config use-context pod-deployment-viewer-context
-
-<!-- Reset the credentials -->
 kubectl config set-context docker-desktop --user=docker-desktop --namespace=study
 kubectl config use-context docker-desktop
 
