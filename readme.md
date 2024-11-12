@@ -9,7 +9,7 @@ choco install k9s
 ## Install nginx controller in Docker Desktop
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.6.4/deploy/static/provider/aws/deploy.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.12.0-beta.0/deploy/static/provider/cloud/deploy.yaml
 ```
 
 ## Open de hostfile op je computer en voeg hier de volgende regel aan toe
