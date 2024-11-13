@@ -28,6 +28,14 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 6. Maak een MySql deployment aan
 7. Maak de services aan voor de Wordpress en Mysql deployments
 8. Maak een ingress aan met de url wordpress.cloudrepublic.internal
+9. Maak een database aan in de my sql
+
+  ```
+  kubectl get pods -n wordpress -l tier=mysql
+  kubectl exec -it -n wordpress POD_NAME -- mysql -u root -p
+  CREATE DATABASE IF NOT EXISTS wordpress;
+  ```
+
 10. Open de url wordpress.cloudrepublic.internal als het goed is zie je nu de Wordpress setup page
 11. Maak een Role aan welke alleen rechten heeft om de pods en deployments in de door jou aangemaakte namespace te zien
 
@@ -57,3 +65,15 @@ kubectl config use-context docker-desktop
 
 - Inloggen werkt niet met het account pod-deployment-viewer
   - kijk naar de kubeconfig of deze goed staat en of er een token in zit
+
+- Geen verbinding met de database:
+  - kubectl get pods -n wordpress -l tier=mysql
+  - kubectl exec -it -n wordpress POD_NAME -- mysql -u root -p
+
+- Installeer ping
+  - apt-get update -y
+  - apt-get install -y iputils-ping
+
+- Instaleer vim
+  - apt-get update
+  - apt-get install vim
